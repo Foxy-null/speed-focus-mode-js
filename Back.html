@@ -1,6 +1,6 @@
-<div class="alert-box" id="show-alert" style="display:none">
-    Wake up! You have been looking at<br>the question for <span id="seconds" style="font-weight: bold">???</span>
-    seconds!<div id='alert-audio'></div>
+<div class="alert-box" id="back-show-alert" style="display:none">
+    Wake up! You have been looking at<br>the answer for <span id="seconds" style="font-weight: bold">???</span>
+    seconds!<div id='back-alert-audio'></div>
 </div>
 <!-- Place above lines at the top of your card template -->
 ...
@@ -13,8 +13,8 @@
 <!-- Place following lines at the bottom of your card template -->
 <script>
     var time_min = 0;
-    var time_sec = 15;
-    var warn_sec = 10;
+    var time_sec = 20;
+    var warn_sec = 15;
     var warn_ms = ((time_min * 60  + time_sec) - warn_sec) * 1000;
     function countdown(elementName, minutes, seconds) {
         var element, endTime, hours, mins, msLeft, time;
@@ -24,17 +24,17 @@
         function updateTimer() {
             msLeft = endTime - (+new Date);
             if (msLeft < 1000) {
-                element.innerHTML = "<span style='color:#CC5B5B'>Time is up!</span>";
+                element.innerHTML = "<span style='color:#CC5B5B'>時間切れ</span>";
             } else if (warn_ms < msLeft && msLeft < warn_ms + 1000) {
-                $('#show-alert').show()
-                $("#alert-audio").html('<audio autoplay><source src="https://assets.mixkit.co/active_storage/sfx/765/765-preview.mp3" type="audio/mp3" /></audio>');
+                $('#back-show-alert').show()
+                $("#back-alert-audio").html('<audio autoplay><source src="https://assets.mixkit.co/active_storage/sfx/765/765-preview.mp3" type="audio/mp3" /></audio>');
                 time = new Date(msLeft);
                 hours = time.getUTCHours();
                 mins = time.getUTCMinutes();
                 element.innerHTML = (hours ? hours + ':' + twoDigits(mins) : mins) + ':' + twoDigits(time.getUTCSeconds());
                 setTimeout(updateTimer, time.getUTCMilliseconds() + 500);
                 setTimeout(() => {
-                    $('#show-alert').hide()
+                    $('#back-show-alert').hide()
                 }, 1000)
             } else {
                 time = new Date(msLeft);
