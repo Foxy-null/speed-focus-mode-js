@@ -1,0 +1,27 @@
+<!-- ↓ warning field of speed focus mode (front) -->
+
+<script>
+    const warn_seconds = 10;
+    document.getElementById("seconds").innerHTML = warn_seconds;
+    const wait = function (seconds) {
+        return new Promise(function (resolve) {
+            setTimeout(resolve, seconds * 1000);
+        });
+    };
+    wait(warn_seconds) // How many seconds before the warning is displayed
+        .then(() => {
+            $('#show-alert').show()
+            $("#alert-audio").html('<audio autoplay><source src="https://assets.mixkit.co/active\_storage/sfx/765/765-preview.mp3" type="audio/mp3" /></audio>');
+            return wait(1);
+        })
+        .then(() => {
+            $('#show-alert').hide()
+        })
+</script>
+
+<div class="alert-box" id="show-alert" style="display:none">
+    Wake up! You have been looking at<br>the question for <span id="seconds" style="font-weight: bold">???</span>
+    seconds!<div id='alert-audio'></div>
+</div>
+
+<!-- End -->
