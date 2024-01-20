@@ -1,12 +1,13 @@
-<div class="alert-box" id="back-show-alert" style="display:none">
-    Wake up! You have been looking at<br>the answer for <span id="seconds" style="font-weight: bold">???</span>
-    seconds!<div id='back-alert-audio'></div>
+<div class="alert-box" id="back-show-alert" style="display: none">
+    Wake up! You have been looking at<br />the answer for
+    <span id="seconds" style="font-weight: bold">???</span> seconds!
+    <div id="back-alert-audio"></div>
 </div>
 <!-- Place above lines at the top of your card template -->
 ...
 
 <!-- Place this line anywhere you want -->
-<span id="s2" style='font-size:16px; color: #A6ABB9;'></span>
+<span id="s2" style="font-size: 16px; color: #a6abb9"></span>
 
 ...
 
@@ -15,39 +16,49 @@
     var time_min = 0;
     var time_sec = 20;
     var warn_sec = 15;
-    var warn_ms = ((time_min * 60  + time_sec) - warn_sec) * 1000;
+    var warn_ms = (time_min * 60 + time_sec - warn_sec) * 1000;
     function countdown(elementName, minutes, seconds) {
         var element, endTime, hours, mins, msLeft, time;
         function twoDigits(n) {
-            return (n <= 9 ? "0" + n : n);
+            return n <= 9 ? "0" + n : n;
         }
         function updateTimer() {
-            msLeft = endTime - (+new Date);
+            msLeft = endTime - +new Date();
             if (msLeft < 1000) {
-                element.innerHTML = "<span style='color:#CC5B5B'>時間切れ</span>";
+                element.innerHTML =
+                    "<span style='color:#CC5B5B'>時間切れ</span>";
             } else if (warn_ms < msLeft && msLeft < warn_ms + 1000) {
-                $('#back-show-alert').show()
-                $("#back-alert-audio").html('<audio autoplay><source src="https://assets.mixkit.co/active_storage/sfx/765/765-preview.mp3" type="audio/mp3" /></audio>');
+                $("#back-show-alert").show();
+                $("#back-alert-audio").html(
+                    '<audio autoplay><source src="https://assets.mixkit.co/active_storage/sfx/765/765-preview.mp3" type="audio/mp3" /></audio>'
+                );
                 time = new Date(msLeft);
                 hours = time.getUTCHours();
                 mins = time.getUTCMinutes();
-                element.innerHTML = (hours ? hours + ':' + twoDigits(mins) : mins) + ':' + twoDigits(time.getUTCSeconds());
+                element.innerHTML =
+                    (hours ? hours + ":" + twoDigits(mins) : mins) +
+                    ":" +
+                    twoDigits(time.getUTCSeconds());
                 setTimeout(updateTimer, time.getUTCMilliseconds() + 500);
                 setTimeout(() => {
-                    $('#back-show-alert').hide()
-                }, 1000)
+                    $("#back-show-alert").hide();
+                }, 1000);
             } else {
                 time = new Date(msLeft);
                 hours = time.getUTCHours();
                 mins = time.getUTCMinutes();
-                element.innerHTML = (hours ? hours + ':' + twoDigits(mins) : mins) + ':' + twoDigits(time.getUTCSeconds());
+                element.innerHTML =
+                    (hours ? hours + ":" + twoDigits(mins) : mins) +
+                    ":" +
+                    twoDigits(time.getUTCSeconds());
                 setTimeout(updateTimer, time.getUTCMilliseconds() + 500);
             }
         }
         element = document.getElementById(elementName);
-        endTime = (+new Date) + 1000 * (60 * minutes + seconds) + 500;
+        endTime = +new Date() + 1000 * (60 * minutes + seconds) + 500;
         updateTimer();
     }
     countdown("s2", time_min, time_sec);
     document.getElementById("seconds").innerHTML = warn_sec;
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
