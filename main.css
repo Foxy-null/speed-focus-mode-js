@@ -19,4 +19,5 @@
 	position: fixed;
 	position: -webkit-fixed;
 	text-align: left;
+	z-index: 10000;
 }
