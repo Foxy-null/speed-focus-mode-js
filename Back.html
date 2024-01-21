@@ -26,7 +26,7 @@
             msLeft = endTime - +new Date();
             if (msLeft < 1000) {
                 element.innerHTML =
-                    "<span style='color:#CC5B5B'>時間切れ</span>";
+                    "<span style='color:#CC5B5B'>Time is up!</span>";
             } else if (back_warn_ms < msLeft && msLeft < back_warn_ms + 1000) {
                 $("#back-show-alert").show();
                 $("#back-alert-audio").html(
