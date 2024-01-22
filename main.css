@@ -13,7 +13,8 @@
 .alert-box {
 	font-family: "Segoe UI", arial;
 	font-size: 12px;
-	bottom: 0;
+	top:100vh;
+ transform:translateY(-100%);
 	left: 0;
 	padding: 14px 14px 14px 14px;
 	position: fixed;
