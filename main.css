@@ -1,24 +1,24 @@
-.alert-box:not(.nightMode){
-	background: #fff8c4;
-	border: 2px solid #000000;
-	color: #555;
+.alert-box:not(.nightMode) {
+    background: #fff8c4;
+    border: 2px solid #000000;
+    color: #555;
 }
 
-.nightMode .alert-box{
-	background: #2c2c2c;
-	border: 2px solid #ffffff;
-	color: #ffffff;
+.nightMode .alert-box {
+    background: #2c2c2c;
+    border: 2px solid #ffffff;
+    color: #ffffff;
 }
 
 .alert-box {
-	font-family: "Segoe UI", arial;
-	font-size: 12px;
-	top:100vh;
-	transform:translateY(-100%);
-	left: 0;
-	padding: 14px 14px 14px 14px;
-	position: fixed;
-	position: -webkit-fixed;
-	text-align: left;
-	z-index: 10000;
+    font-family: "Segoe UI", arial;
+    font-size: 12px;
+    top: 100vh;
+    transform: translateY(-100%);
+    left: 0;
+    padding: 14px 14px 14px 14px;
+    position: fixed;
+    position: -webkit-fixed;
+    text-align: left;
+    z-index: 2147483647;
 }
