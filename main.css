@@ -1,3 +1,15 @@
+.alert-box {
+    font-family: "Segoe UI", arial;
+    font-size: 12px;
+    transform: translateY(-100%);
+    left: 0;
+    padding: 14px 14px 14px 14px;
+    position: fixed;
+    position: -webkit-fixed;
+    text-align: left;
+    z-index: 2147483647;
+}
+
 .alert-box:not(.nightMode) {
     background: #fff8c4;
     border: 2px solid #000000;
@@ -10,15 +22,10 @@
     color: #ffffff;
 }
 
-.alert-box {
-    font-family: "Segoe UI", arial;
-    font-size: 12px;
+.alert-box:not(.mobile) {
     top: 100vh;
-    transform: translateY(-100%);
-    left: 0;
-    padding: 14px 14px 14px 14px;
-    position: fixed;
-    position: -webkit-fixed;
-    text-align: left;
-    z-index: 2147483647;
+}
+
+.mobile .alert-box {
+    top: calc(100vh - 110px);
 }

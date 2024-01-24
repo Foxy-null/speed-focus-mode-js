@@ -1,64 +1,89 @@
-<div class="alert-box" id="back-show-alert" style="display: none">
+<div class="alert-box" id="show-alert" style="display: none">
     Wake up! You have been looking at<br />the answer for
     <span id="seconds" style="font-weight: bold">???</span> seconds!
-    <div id="back-alert-audio"></div>
+    <div id="alert-audio"></div>
 </div>
 <!-- Place above lines at the top of your card template -->
-...
 
 <!-- Place this line anywhere you want -->
-<span id="s2" style="font-size: 16px; color: #a6abb9"></span>
-
-...
+<span id="s1" style="font-size: 16px; color: #a6abb9"></span>
 
 <!-- Place following lines at the bottom of your card template -->
 <script>
     var time_min = 0;
-    var time_sec = 20;
-    var warn_sec = 15;
-    var back_warn_ms = (time_min * 60 + time_sec - warn_sec) * 1000;
-    function countdown(elementName, minutes, seconds) {
-        var element, endTime, hours, mins, msLeft, time;
-        function twoDigits(n) {
-            return n <= 9 ? "0" + n : n;
+    var time_sec = 20; // how long the user has before "Time is up" is shown
+    var warn_sec = 15; // after this much time has passed, show a warning and play a sound
+
+    var warn_ms = (time_min * 60 + time_sec - warn_sec) * 1000;
+    var audio_url =
+        "https://assets.mixkit.co/active_storage/sfx/765/765-preview.mp3";
+    var audio_str =
+        '<audio autoplay><source src="' +
+        audio_url +
+        '" type="audio/mp3" /></audio>';
+
+    var _timer_storage_key = "timeout_key";
+    // equivalent to setTimeout() but saves the timeout id so we can cancel it
+    function setTimeoutCancellable(func, delay) {
+        let new_id = setTimeout(func, delay);
+        // save the new timer id in the session storage
+        sessionStorage.setItem(_timer_storage_key, new_id.toString());
+    }
+    function cancelPreviousTimeout() {
+        let timer_id_str = sessionStorage.getItem(_timer_storage_key);
+        if (timer_id_str !== null) {
+            // we have a previously set timer, so cancel it
+            clearTimeout(parseInt(timer_id_str));
+        }
+    }
+
+    // return a string of the form hh:mm:ss
+    function formatTime(milliseconds) {
+        // toISOString() gives a string such as "1970-01-01T00:00:10.000Z"
+        return new Date(milliseconds)
+            .toISOString()
+            .substring(11, 19)
+            .replace(/00:0|00:/, "");
+    }
+
+    function countdown(elementName, seconds) {
+        let element, endTime;
+        // remember whether we have shown any alert
+        let alert_shown = false;
+
+        cancelPreviousTimeout(); // make sure no timeouts for previous cards are running
+
+        function showAlerts() {
+            // play the sound, and hide the alert after 1 second
+            $("#show-alert").show();
+            $("#alert-audio").html(audio_str);
+            setTimeout(() => {
+                $("#show-alert").hide();
+            }, 1000);
         }
         function updateTimer() {
-            msLeft = endTime - +new Date();
-            if (msLeft < 1000) {
+            let msLeft = endTime - +new Date();
+
+            if (msLeft > 0) {
+                if (msLeft < warn_ms) {
+                    if (!alert_shown) {
+                        showAlerts();
+                        alert_shown = true;
+                    }
+                }
+                element.innerHTML = formatTime(msLeft);
+                //setTimeout(updateTimer, 100);
+                setTimeoutCancellable(updateTimer, 100);
+            } else {
                 element.innerHTML =
                     "<span style='color:#CC5B5B'>Time is up!</span>";
-            } else if (back_warn_ms < msLeft && msLeft < back_warn_ms + 1000) {
-                $("#back-show-alert").show();
-                $("#back-alert-audio").html(
-                    '<audio autoplay><source src="https://assets.mixkit.co/active_storage/sfx/765/765-preview.mp3" type="audio/mp3" /></audio>'
-                );
-                time = new Date(msLeft);
-                hours = time.getUTCHours();
-                mins = time.getUTCMinutes();
-                element.innerHTML =
-                    (hours ? hours + ":" + twoDigits(mins) : mins) +
-                    ":" +
-                    twoDigits(time.getUTCSeconds());
-                setTimeout(updateTimer, time.getUTCMilliseconds() + 500);
-                setTimeout(() => {
-                    $("#back-show-alert").hide();
-                }, 1000);
-            } else {
-                time = new Date(msLeft);
-                hours = time.getUTCHours();
-                mins = time.getUTCMinutes();
-                element.innerHTML =
-                    (hours ? hours + ":" + twoDigits(mins) : mins) +
-                    ":" +
-                    twoDigits(time.getUTCSeconds());
-                setTimeout(updateTimer, time.getUTCMilliseconds() + 500);
             }
         }
         element = document.getElementById(elementName);
-        endTime = +new Date() + 1000 * (60 * minutes + seconds) + 500;
+        endTime = +new Date() + 1000 * seconds;
         updateTimer();
     }
-    countdown("s2", time_min, time_sec);
+    countdown("s1", 60 * time_min + time_sec);
     document.getElementById("seconds").innerHTML = warn_sec;
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
