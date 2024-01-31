@@ -7,7 +7,7 @@
     position: fixed;
     position: -webkit-fixed;
     text-align: left;
-    z-index: 2147483647;
+    z-index: 100;
 }
 
 .alert-box:not(.nightMode) {
